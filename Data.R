@@ -193,7 +193,7 @@ plot(transformed_data$Time, transformed_data$SMOIS)
 plot(transformed_data$Time, transformed_data$WS)
 plot(transformed_data$Time, transformed_data$WD)
 
-#Analysis of the first research question
+#Analysis of wind patterns (Wind Speed and Direction) in the dataset
 #plotting the Wind Rose diagram to see the patterns of wind speed and wind direction
 transformed_data$Time <- as.factor(transformed_data$Time)
 windRose(transformed_data, ws = "WS", wd = "WD", main = "Wind Rose Diagram for May 2018")
@@ -222,7 +222,7 @@ ggplot(data = transformed_data, aes(x = WD, y = WS)) +
   geom_point() +
   labs(title = "Scatterplot of Wind Direction vs. Wind Speed", x = "Wind Direction", y = "Wind Speed")
 
-#Analysis for research question2
+#Checking for significant relationship between Surface Pressure and Soil Temperature
 #Scatterplot to view the relationship between Surface pressure and Soil Temperature
 ggplot(transformed_data, aes(x = PSFC, y = TSLB)) +
   geom_point() +
@@ -237,7 +237,7 @@ print(correlation_PSFC_Rainc)
 model <- lm(TSLB ~ PSFC, data = transformed_data)
 summary(model)
 
-#Analysis for the third research question 
+#Machine learning modeling to forecast soil temperature 
 #Selection of columns needed for the analysis
 ml_relevant_column <- c("Time", "TSK", "Q2", "Rainc", "TSLB", "SMOIS", "Snow")
 ml_filtered_data <- transformed_data[, ml_relevant_column]
@@ -295,7 +295,7 @@ hist(wind_speed, main = "Distribution of Wind Speeds in Co Kerry, May 2018", xla
 density_plot <- density(wind_speed)
 plot(density_plot, main = "Distribution of Wind Speeds in Co Kerry, May 2018", xlab = "Wind Speed (m/s)", col = "red")
 
-#Analysis of the 4th research question
+#Checking for trends in humidity and time-series forecast of humidity levels
 #Checking the trend of Q2 in May
 summary(transformed_data$Q2)
 
@@ -327,7 +327,7 @@ mae <- mean(abs(forecast$residuals))
 mse <- mean(forecast$residuals^2)
 cat("MAE:", mae, "\nMSE:", mse)
 
-#Analysis for research question 5
+#Relationship between wind speed and precipitation events, and time-series forecast
 #getting the correlation between wind speed, accumulated rain and non-convective rain
 transformed_data_melted <- melt(transformed_data, id.vars = "WS", 
                             measure.vars = c("Rainc", "Rainnc"), 
